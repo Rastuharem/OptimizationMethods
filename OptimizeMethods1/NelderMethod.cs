@@ -17,12 +17,10 @@ namespace OptimizeMethods1
         public NelderMethod(Vector v, FuncDatabase.Function fun)
         {
             List<Vector> Simplex = new List<Vector>();
-            Random rnd = new Random();
             for (int i = 0; i < v.count + 1; i++)
             {
                 var SimpComp = new Vector(v.count);
-                for (int j = 0; j < v.count; j++)
-                    SimpComp.vec[j] = rnd.Next(-10, 10);
+                SimpComp.RandomInitialize(-10, 10);
                 Simplex.Add(SimpComp);
             }
 
@@ -31,10 +29,10 @@ namespace OptimizeMethods1
                 Console.WriteLine("Посчитаем n+1 значений функции:");
                 for (int i = 0; i < Simplex.Count; i++)
                 {
-                    Console.WriteLine("Точка: (");
+                    Console.Write("Точка: (");
                     for (int j = 0; j < v.count - 1; j++)
                         Console.Write(Simplex[i].vec[j] + ", ");
-                    Console.WriteLine("). Значение функции: " + Simplex[i].CalculateFun(fun));
+                    Console.WriteLine(Simplex[i].vec[v.count-1] + "). Значение функции: " + Simplex[i].CalculateFun(fun));
                 }
                 Console.WriteLine();
 

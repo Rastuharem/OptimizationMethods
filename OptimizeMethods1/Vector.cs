@@ -30,6 +30,12 @@ namespace OptimizeMethods1
             var buf = new Vector(this);
             return fun.Invoke(buf);
         }
+        public void RandomInitialize(int minval, int maxval)
+        {
+            var rnd = new Random();
+            for (int i = 0;i<count;i++)
+                vec[i] = rnd.Next(minval, maxval);
+        }
 
         public static Vector operator+ (Vector v1, Vector v2)
         {

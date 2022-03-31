@@ -44,6 +44,19 @@ namespace OptimizeMethods1
                 sol.vec[i] += v2.vec[i];
             return sol;
         }
+        public static Vector operator -(Vector v1, Vector v2)
+        {
+            if (v1.count < v2.count)
+            {
+                var buf = new Vector(v2);
+                v2 = v1;
+                v1 = buf;
+            }
+            Vector sol = new Vector(v1);
+            for (int i = 0; i < v2.count; i++)
+                sol.vec[i] -= v2.vec[i];
+            return sol;
+        }
         public static bool operator== (Vector v1, Vector v2)
         {
             if (v1.count != v2.count)
@@ -59,6 +72,5 @@ namespace OptimizeMethods1
                 return false;
             return true;
         }
-
     }
 }

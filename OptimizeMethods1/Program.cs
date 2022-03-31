@@ -5,17 +5,8 @@ namespace OptimizeMethods1
 {
     class Program
     {
-        const double NelderAlpha = 1; // Здесь меняется коэффициент отражения для метода Нелдера-Мида
-        const double betta = 0.5; // Здесь меняется коэффициент сжатия для метода Нелдера-Мида
-        const double gamma = 2; // Здесь меняется коэффициент растяжения для метода Нелдера-Мида
-        const double NelderEps = 0.0000001; // Здесь меняется погрешность eps для метода Нелдера-Мида
-        
-        const double HookAlpha = 2; // Здесь меняется коэффициент уменьшения Дельта для метода Хука-Дживса
-        const double HookEps = 0.00001; // Здесь меняется погрешность eps для метода Хука-Дживса
-
         const int n = 2; // Наша размерность функции
-        //static Vector x = new Vector(n);
-        static double[] x = new double[n + 1];
+        static Vector x = new Vector(n);
         static double[,] funi = new double[n + 1, n + 1];
         // Матрица имеет вид:
         // {
@@ -33,9 +24,12 @@ namespace OptimizeMethods1
             Console.WriteLine("------------------------------------------------------------------------------" + "\n");
             Console.WriteLine("Нажмите любую кнопку для продолжения..." + "\n");
             Console.ReadLine();
-            double[] NelderSolution = NelderMidMethod(); // { x1, x2, sol }
-            Console.WriteLine("Минимальное найденное значение: " + NelderSolution[2]);
-            Console.WriteLine("Оно находится в точке: (" + NelderSolution[0] + ", " + NelderSolution[1] + ")." + "\n");
+            NelderMethod Nelder = new NelderMethod(x, fd.Rosenbrock);
+            Console.WriteLine("Минимальное найденное значение: " + Nelder.sol);
+            Console.WriteLine("Оно находится в точке: (");
+            for (int i = 0; i < Nelder.solv.count - 1; i++)
+                Console.Write(Nelder.solv.vec[i] + ", ");
+            Console.WriteLine(")." + "\n");
             Console.WriteLine("------------------------------------------------------------------------------");
             Console.WriteLine("1.) Метод Хука-Дживса");
             Console.WriteLine("------------------------------------------------------------------------------" + "\n");

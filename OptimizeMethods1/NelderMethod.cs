@@ -11,6 +11,12 @@ namespace OptimizeMethods1
         public const double gamma = 2; // Здесь меняется коэффициент растяжения для метода Нелдера-Мида
         public const double NelderEps = 0.0000001; // Здесь меняется погрешность eps для метода Нелдера-Мида
 
+        public readonly double sol;
+        public readonly Vector solv;
 
+        public NelderMethod(Vector v, FuncDatabase.Function fun)
+        {
+            
+        }
     }
 }

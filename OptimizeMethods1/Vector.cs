@@ -8,7 +8,7 @@ namespace OptimizeMethods1
     {
         public readonly int count;
         public double[] vec { get; set; }
-
+        
         public Vector(int n, double[] x)
         {
             count = n;
@@ -23,6 +23,12 @@ namespace OptimizeMethods1
         {
             count = v.count;
             vec = v.vec;
+        }
+
+        public double CalculateFun(FuncDatabase.Function fun)
+        {
+            var buf = new Vector(this);
+            return fun.Invoke(buf);
         }
 
         public static Vector operator+ (Vector v1, Vector v2)
@@ -53,5 +59,6 @@ namespace OptimizeMethods1
                 return false;
             return true;
         }
+
     }
 }

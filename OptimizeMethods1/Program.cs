@@ -14,6 +14,7 @@ namespace OptimizeMethods1
         const double HookEps = 0.00001; // Здесь меняется погрешность eps для метода Хука-Дживса
 
         const int n = 2; // Наша размерность функции
+        //static Vector x = new Vector(n);
         static double[] x = new double[n + 1];
         static double[,] funi = new double[n + 1, n + 1];
         // Матрица имеет вид:
@@ -26,6 +27,7 @@ namespace OptimizeMethods1
 
         private static void Main()
         {
+            FuncDatabase fd = new FuncDatabase();
             Console.WriteLine("------------------------------------------------------------------------------");
             Console.WriteLine("1.) Метод Нелдер-Мида");
             Console.WriteLine("------------------------------------------------------------------------------" + "\n");

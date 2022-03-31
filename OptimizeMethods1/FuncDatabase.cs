@@ -4,17 +4,12 @@ using System.Text;
 
 namespace OptimizeMethods1
 {
-    class FuncDatabase
+    static class FuncDatabase
     {
         public delegate double Function(Vector v);
-        public Function Rosenbrock { get; set; }
+        public static readonly Function Rosenbrock = RosenbrockFun;
 
-        public FuncDatabase()
-        {
-            Rosenbrock = RosenbrockFun;
-        }
-
-        private double RosenbrockFun(Vector v)
+        private static double RosenbrockFun(Vector v)
         {
             double sol=0;
             for (int i = 0; i < v.count - 1; i++)

@@ -7,7 +7,7 @@ namespace OptimizeMethods1
     class HookMethod
     {
         const double HookAlpha = 2; // Здесь меняется коэффициент уменьшения Дельта для метода Хука-Дживса
-        const double HookEps = 0.000000001; // Здесь меняется погрешность eps для метода Хука-Дживса
+        const double HookEps = 0.0000001; // Здесь меняется погрешность eps для метода Хука-Дживса
 
         public readonly double sol;
         public readonly Vector solv;
@@ -25,19 +25,29 @@ namespace OptimizeMethods1
             var x = new Vector(v.count);
             while (Math.Sqrt(2 * Math.Pow(delta, 2)) >= HookEps)
             { 
-                x = v;
+                x = new Vector(v);
                 double startfun = x.CalculateFun(fun);
                 bool IsGoodSearch = false;
                 int k = 0;
                 while (!IsGoodSearch && k < v.count)
                 {
-                    if (MakeExploreSearch(x, k, delta, fun))
+                    x = MakeExploreSearch(x, k, delta, fun);
+                    if (x.CalculateFun(fun) < v.CalculateFun(fun))
+                    {
                         IsGoodSearch = true;
-                    else if (MakeExploreSearch(x, k, delta * (-1), fun))
-                        IsGoodSearch = true;
+                        v = new Vector(x);
+                    }
+                    else
+                    {
+                        x = MakeExploreSearch(x, k, delta * (-1), fun);
+                        if (x.CalculateFun(fun) < v.CalculateFun(fun))
+                        {
+                            IsGoodSearch = true;
+                            v = new Vector(x);
+                        }
+                    }
                     k++;
                 }
-               
                 if (Math.Sqrt(2 * Math.Pow(delta, 2)) <= HookEps)
                     break;
                 if (startfun != x.CalculateFun(fun))
@@ -86,9 +96,9 @@ namespace OptimizeMethods1
             sol = solv.CalculateFun(fun);
         }
 
-        public bool MakeExploreSearch(Vector v, int k, double delta, FuncDatabase.Function fun)
+        public Vector MakeExploreSearch(Vector v, int k, double delta, FuncDatabase.Function fun)
         {
-            var delta_v = v;
+            var delta_v = new Vector(v);
             Console.WriteLine("Производим исследующий поиск: ");
             Console.WriteLine("Производим приращение х" + (k + 1) + " с дельтой равной " + delta);
             delta_v.vec[k] += delta;
@@ -98,20 +108,17 @@ namespace OptimizeMethods1
             Console.WriteLine(delta_v.vec[v.count - 1] + "), Значение в точке: " + delta_v.CalculateFun(fun) + "\n");
             if (delta_v.CalculateFun(fun) < v.CalculateFun(fun))
             {
-                v = delta_v;
+                v = new Vector(delta_v);
                 Console.WriteLine("Значение функции в новой точке меньше предыдущей! Меняем." + "\n");
                 Console.Write("Новая точка: (");
                 for (int i = 0; i < v.count - 1; i++)
                     Console.Write(v.vec[i] + ", ");
                 Console.WriteLine(v.vec[v.count - 1] + "), Значение в точке: " + v.CalculateFun(fun) + "\n");
-                return true;
+                return v;
             }
             else
-            {
                 Console.WriteLine("Значение функции в новой точке не меньше предыдущей :(. Проверяем следующую..." + "\n");
-                delta_v.vec[k] -= delta;
-            }
-            return false;
+            return v;
         }
     }
 }

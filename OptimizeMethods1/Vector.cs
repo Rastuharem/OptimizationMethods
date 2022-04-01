@@ -22,7 +22,9 @@ namespace OptimizeMethods1
         public Vector(Vector v)
         {
             count = v.count;
-            vec = v.vec;
+            vec = new double[v.count];
+            for (int i = 0; i < v.count; i++)
+                vec[i] = v.vec[i];
         }
 
         public double CalculateFun(FuncDatabase.Function fun)

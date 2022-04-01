@@ -4,17 +4,16 @@ using System.Text;
 
 namespace OptimizeMethods1
 {
-    class NelderMethod
+    class NelderMethod : Method
     {
         public const double NelderAlpha = 1; // Здесь меняется коэффициент отражения для метода Нелдера-Мида
         public const double betta = 0.5; // Здесь меняется коэффициент сжатия для метода Нелдера-Мида
         public const double gamma = 2; // Здесь меняется коэффициент растяжения для метода Нелдера-Мида
         public const double NelderEps = 0.0000001; // Здесь меняется погрешность eps для метода Нелдера-Мида
 
-        public readonly double sol;
-        public readonly Vector solv;
+        public NelderMethod(Vector v, FuncDatabase.Function fun) : base(v, fun) { }
 
-        public NelderMethod(Vector v, FuncDatabase.Function fun)
+        protected override Vector DoAlgorithm(Vector v, FuncDatabase.Function fun)
         {
             List<Vector> Simplex = new List<Vector>();
             for (int i = 0; i < v.count + 1; i++)
@@ -24,16 +23,12 @@ namespace OptimizeMethods1
                 Simplex.Add(SimpComp);
             }
 
+            Vector _solv = new Vector(v.count);
             do
             {
                 Console.WriteLine("Посчитаем n+1 значений функции:");
                 for (int i = 0; i < Simplex.Count; i++)
-                {
-                    Console.Write("Точка: (");
-                    for (int j = 0; j < v.count - 1; j++)
-                        Console.Write(Simplex[i].vec[j] + ", ");
-                    Console.WriteLine(Simplex[i].vec[v.count-1] + "). Значение функции: " + Simplex[i].CalculateFun(fun));
-                }
+                    Simplex[i].ConsoleOut(fun);
                 Console.WriteLine();
 
                 var xh = Simplex[0]; // { x1, x2, ..., xn } - максимальное значение
@@ -87,11 +82,10 @@ namespace OptimizeMethods1
                 }
                 else
                     Squeeze(xh, xc, xl, Simplex, fun);
-                solv = xl;
-                sol = solv.CalculateFun(fun);
+                _solv = xl;
             } while (CycleChecker(Simplex, fun) > NelderEps);
+            return _solv;
         }
-
         private static void Squeeze(Vector xh, Vector xc, Vector xl, List<Vector> simp, FuncDatabase.Function fun)
         {
             var xs = new Vector(xl.count); // { x1, x2, ..., xn } - Сжатие
@@ -113,8 +107,8 @@ namespace OptimizeMethods1
         private static double CycleChecker(List<Vector> simp, FuncDatabase.Function fun)
         {
             double answ = 0;
-            for (int i = 1; i<simp.Count;i++)
-                answ += Math.Pow(simp[i].CalculateFun(fun)-simp[0].CalculateFun(fun), 2);
+            for (int i = 1; i < simp.Count; i++)
+                answ += Math.Pow(simp[i].CalculateFun(fun) - simp[0].CalculateFun(fun), 2);
             return Math.Sqrt(answ);
         }
     }

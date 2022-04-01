@@ -38,6 +38,13 @@ namespace OptimizeMethods1
             for (int i = 0;i<count;i++)
                 vec[i] = rnd.Next(minval, maxval);
         }
+        public void ConsoleOut(FuncDatabase.Function fun)
+        {
+            Console.Write("Точка: (");
+            for (int i = 0; i < count - 1; i++)
+                Console.Write(vec[i] + ", ");
+            Console.WriteLine(vec[count - 1] + ")." + "\n" + "Значение функции: " + CalculateFun(fun) + "\n");
+        }
 
         public static Vector operator+ (Vector v1, Vector v2)
         {

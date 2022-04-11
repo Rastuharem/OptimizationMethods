@@ -11,7 +11,7 @@ namespace OptimizeMethods1
 
         private static double RosenbrockFun(Vector v)
         {
-            double sol=0;
+            double sol = 0;
             for (int i = 0; i < v.count - 1; i++)
                 sol += Math.Pow(1 - v.vec[i], 2) + 100 * Math.Pow(v.vec[i + 1] - Math.Pow(v.vec[i], 2), 2);
             return sol;
